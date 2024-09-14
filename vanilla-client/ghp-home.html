@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="styles.css" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css"
+            rel="stylesheet"
+        />
+        <!-- <script src="https://unpkg.com/turndown/dist/turndown.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+        <script src="verifyUserLogin.js" defer></script>
+        <script src="scripts.js" defer></script>
+        <title>Daily Progress Streaks</title>
+    </head>
+    <body class="sidebar-hidden">
+        <div id="ghpContainer">
+            <div id="selectedGHP"></div>
+            <div id="streakDisplay"></div>
+        </div>
+        <aside id="ghp-sidebar" class="hidden">
+            <div class="actions-and-info">
+                <button id="logoutButton">Log Out</button>
+                <span id="totalGhpChecked"></span>
+            </div>
+            <h2 onclick="location.href = 'landing.html'">
+                Goal Habit Progressions
+            </h2>
+            <div>
+                <label for="newGHPInput">New GHP</label>
+                <input
+                    type="text"
+                    id="newGHPInput"
+                    placeholder="New GHP name"
+                />
+                <button id="addGHPButton">Add GHP</button>
+            </div>
+        </aside>
+        <button id="sidebar-button" class="hidden">
+            <span class="material-icons">arrow_forward</span>
+        </button>
+        <div class="calendar-carousel">
+            <button id="downloadCalender">
+                <span class="material-icons"> download </span>
+            </button>
+            <!-- <h1>Stay Consistent and See Your Progress Unfold</h1> -->
+            <button id="resetCalenderButton" class="hidden">
+                <span class="material-icons">restart_alt</span>
+            </button>
+            <div class="carousel-container" id="carouselContainer"></div>
+            <button class="nav-arrow left">
+                <span class="material-icons">chevron_left</span>
+            </button>
+            <button class="nav-arrow right">
+                <span class="material-icons">chevron_right</span>
+            </button>
+        </div>
+        <div id="addNoteModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Today's notes for <span class="ghp-name"></span></h2>
+                <div id="editor" class="ql-container ql-snow"></div>
+                <button id="addNote">Add Notes</button>
+            </div>
+        </div>
+        <div id="viewNoteModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Notes for <span class="ghp-name"></span> from <span class="date"></span></h2>
+                <hr />
+                <div id="notesContent"></div>
+            </div>
+        </div>
+    </body>
+</html>

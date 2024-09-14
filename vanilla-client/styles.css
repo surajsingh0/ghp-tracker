@@ -1,0 +1,597 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+:root {
+    --primary-color: #6366f1;
+    --primary-color-hover: #4f46e5;
+    --secondary-color: #10b981;
+    --text-color: #1f2937;
+    --bg-color: #f9fafb;
+    --card-bg: #ffffff;
+    --border-color: #e5e7eb;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text-color);
+}
+
+.calendar-carousel {
+    background-color: var(--card-bg);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.calendar-carousel #downloadCalender {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: rgb(179, 179, 179);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.calendar-carousel #downloadCalender:hover {
+    color: gray;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.month {
+    flex: 0 0 33.333%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.month-header {
+    text-align: center;
+    font-size: 1.8em;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 500;
+    color: #9ca3af;
+    margin-bottom: 15px;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.day.today {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.day.today {
+    cursor: pointer;
+}
+
+.day.today:hover {
+    border-color: var(--primary-color);
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+}
+
+.day.selected {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.day.selected:hover {
+    border-color: var(--secondary-color);
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.day.past {
+    color: #d1d5db;
+}
+
+.day.past.selected {
+    color: white;
+    cursor: pointer;
+}
+
+.day.past.selected:hover {
+    background-color: #0f9d7f;
+    border-color: #0f9d7f;
+}
+
+.day.future {
+    color: #9ca3af;
+}
+
+.empty {
+    visibility: hidden;
+}
+
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-arrow:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.nav-arrow.left {
+    left: 20px;
+}
+
+.nav-arrow.right {
+    right: 20px;
+}
+
+.nav-arrow.left.hidden,
+.nav-arrow.right.hidden {
+    display: none;
+}
+
+#ghpContainer {
+    background-color: var(--card-bg);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: 0;
+    z-index: 10;
+
+    opacity: 0.8;
+    scale: 0.8;
+    transition: all 0.3s ease;
+}
+
+#ghpContainer:hover {
+    top: 10px;
+    opacity: 1;
+    scale: 1.05;
+}
+
+#ghpContainer.hidden {
+    opacity: 0;
+    scale: 0.5;
+    top: 0;
+}
+
+#ghpContainer #selectedGHP {
+    font-size: 1em;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: white;
+}
+
+#ghpContainer #streakDisplay {
+    font-size: 1em;
+    font-weight: 600;
+    background-color: var(--secondary-color);
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: white;
+}
+
+#ghp-sidebar div input {
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 1em;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-color);
+    transition: all 0.3s ease;
+}
+
+#ghp-sidebar div #addGHPButton {
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 1em;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+#ghp-sidebar div input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+#ghp-sidebar div #addGHPButton {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#ghp-sidebar div #addGHPButton:hover {
+    background-color: var(--primary-color-hover);
+    color: white;
+}
+
+#ghpSelect:hover,
+#ghp-sidebar div #newGHPInput:hover {
+    border-color: var(--primary-color);
+}
+
+#streakDisplay {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
+#ghp-sidebar {
+    width: 300px;
+    height: 100vh;
+    background-color: var(--card-bg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+}
+
+#ghp-sidebar li {
+    list-style: none;
+    display: flex;
+    gap: 5px;
+}
+
+#ghp-sidebar li .ghp-button {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 1em;
+    border: 2px solid var(--primary-color);
+    background-color: var(--bg-color);
+    transition: all 0.3s ease;
+    text-align: left;
+    cursor: pointer;
+}
+
+#ghp-sidebar li .ghp-button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+#ghp-sidebar li .ghp-button.checked {
+    display: flex;
+    justify-content: space-between;
+    border-color: var(--secondary-color);
+}
+
+#ghp-sidebar li .ghp-button.checked.active::after {
+    content: "\2714";
+    color: white;
+}
+
+#ghp-sidebar li .ghp-button.checked::after {
+    content: "\2714";
+    color: var(--secondary-color);
+}
+
+#ghp-sidebar li .ghp-button.checked.active {
+    background-color: var(--secondary-color);
+}
+
+#ghp-sidebar li .ghp-button.checked:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+#ghp-sidebar li .ghp-button.checked:hover::after {
+    color: white;
+}
+
+#ghp-sidebar li .add-notes-button {
+    background: none;
+    border: none;
+    color: rgb(141, 141, 141);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#ghp-sidebar li .add-notes-button:hover {
+    color: rgb(111, 111, 111);
+}
+
+#ghp-sidebar li .delete-button {
+    background: none;
+    border: none;
+    color: hsl(0, 100%, 65%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#ghp-sidebar li .delete-button:hover {
+    color: hsl(0, 100%, 45%);
+}
+
+#ghp-sidebar div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#ghp-sidebar li .ghp-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+#ghp-sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+#ghp-sidebar h2 {
+    color: var(--primary-color);
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+}
+
+#ghp-sidebar h2:hover {
+    color: var(--primary-color-hover);
+}
+
+#ghp-sidebar ul {
+    padding: 0;
+    margin: 0;
+}
+
+#ghp-sidebar .actions-and-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: calc(100% - 40px);
+}
+
+#ghp-sidebar #logoutButton {
+    background: none;
+    border: red 1px solid;
+    color: red;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#ghp-sidebar #logoutButton:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+#ghp-sidebar #totalGhpChecked {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: rgb(94, 94, 94);
+}
+
+#sidebar-button {
+    position: fixed;
+    top: 10px;
+    left: 300px;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 11;
+    background-color: var(--primary-color);
+    border-radius: 0 50% 50% 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sidebar-button:hover {
+    background-color: var(--primary-color-hover);
+}
+
+#sidebar-button.hidden {
+    transform: translateX(-300px);
+}
+
+#resetCalenderButton {
+    position: fixed;
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    z-index: 11;
+    scale: 2;
+    bottom: 10px;
+    left: 50%;
+    opacity: 0.2;
+}
+
+#resetCalenderButton:hover {
+    color: var(--primary-color-hover);
+    opacity: 1;
+    rotate: 360deg;
+}
+
+#resetCalenderButton.hidden {
+    display: none;
+}
+
+#addNoteModal,
+#viewNoteModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    z-index: 12;
+    display: none;
+}
+
+#addNoteModal .model-content,
+#viewNoteModal .model-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#addNoteModal #editor {
+    height: 200px;
+}
+
+#viewNoteModal #notesContent {
+    overflow: auto;
+    max-height: 300px;
+}
+
+#addNoteModal .close,
+#viewNoteModal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: rgb(141, 141, 141);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 25px;
+}
+
+#addNoteModal .close:hover,
+#viewNoteModal .close:hover {
+    color: rgb(0, 0, 0);
+}
+
+#addNoteModal #addNote {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#addNoteModal #addNote:disabled {
+    cursor: not-allowed;
+}
+
+#addNoteModal #addNote:hover {
+    background-color: var(--primary-color-hover);
+}
+
+#addNoteModal .ghp-name,
+#viewNoteModal .date,
+#viewNoteModal .ghp-name {
+    color: var(--primary-color);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-color-hover);
+}
+
+/* Responsive adjustments */
+/* @media (max-width: 768px) {
+    #ghp-sidebar {
+        width: 100%;
+    }
+
+    #sidebar-button {
+        left: 100%;
+    }
+
+    body {
+        padding-left: 0;
+    }
+} */
