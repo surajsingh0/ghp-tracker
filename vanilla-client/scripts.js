@@ -46,14 +46,20 @@ let userData = null;
 async function fetchUserData() {
     const accessToken = localStorage.getItem("jwt_token");
 
+    // Get today's date in 'YYYY-MM-DD' format
+    const today = new Date().toISOString().split("T")[0];
+
     try {
-        const response = await fetch("http://localhost:5000/user/data", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
+        const response = await fetch(
+            `http://localhost:5000/user/data?today=${today}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
 
         if (response.ok) {
             userData = await response.json();
