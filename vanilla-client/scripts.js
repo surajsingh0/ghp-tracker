@@ -556,7 +556,7 @@ async function getNotesByDate(ghpId, date) {
 }
 
 async function addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = new Date().toLocaleDateString('en-CA');
 
     if (checkToday) {
         await toggleDayChecked(ghpId, today);
