@@ -200,10 +200,14 @@ def get_user_data():
     if not user:
         return jsonify({"message": "User not found"}), 404
     
+    # Get the 'today' query parameter
+    today_str = request.args.get('today')
+    today = datetime.strptime(today_str, '%Y-%m-%d').date() if today_str else datetime.now().date()
+    
     ghps_data = []
     for ghp in user.ghps:
         checked_days = sorted((day.date.strftime('%Y-%m-%d') for day in ghp.checked_days), reverse=True)
-        current_streak, max_streak = calculate_streaks(checked_days)
+        current_streak, max_streak = calculate_streaks(checked_days, today)
         ghps_data.append({
             "id": ghp.id,
             "name": ghp.name,
@@ -225,12 +229,11 @@ def get_check_days(ghp_id):
     checked_days = CheckedDay.query.filter_by(ghp_id=ghp_id).order_by(CheckedDay.date.desc()).all()
     return jsonify([{"date": day.date.strftime('%Y-%m-%d')} for day in checked_days]), 200
 
-def calculate_streaks(checked_days):
+def calculate_streaks(checked_days, today):
     if not checked_days:
         return 0, 0
     
     checked_days = sorted(set(checked_days), reverse=True)  # Remove duplicates and sort
-    today = datetime.now().date()
     
     current_streak = 0
     max_streak = 0
