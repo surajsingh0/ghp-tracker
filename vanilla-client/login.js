@@ -16,14 +16,18 @@ document
             });
 
             const result = await response.json();
-            alert(result.message || `Access Token: ${result.access_token}`);
+            const { access_token, refresh_token } = result;
 
             if (response.ok) {
-                localStorage.setItem("jwt_token", result.access_token); // Save token for future requests
-                window.location.href = "/"; // Redirect to homepage or another protected route
+                localStorage.setItem("jwt_token", access_token);
+                localStorage.setItem("refresh_token", refresh_token);
+                window.location.href = "/";
+            } else {
+                alert(result.message);
             }
         } catch (error) {
             console.error("Error:", error);
+            alert("Unexpected error!");
         }
     });
 

@@ -47,7 +47,7 @@ async function fetchUserData() {
     const accessToken = localStorage.getItem("jwt_token");
 
     // Get today's date in 'YYYY-MM-DD' format
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toLocaleDateString("en-CA");
 
     try {
         const response = await fetch(
@@ -64,6 +64,8 @@ async function fetchUserData() {
         if (response.ok) {
             userData = await response.json();
             return userData;
+        } else {
+            return await refreshAndRequest(response, fetchUserData);
         }
     } catch (error) {
         console.error("Error:", error);
@@ -89,6 +91,8 @@ async function addGHP(name) {
             ghpList.push(newGHP);
             await fetchUserData(); // Refresh user data
             return newGHP;
+        } else {
+            return await refreshAndRequest(response, () => addGHP(name));
         }
     } catch (error) {
         console.error("Error adding GHP:", error);
@@ -209,6 +213,10 @@ async function toggleDayChecked(ghpId, date) {
             updateTodaysNotesButton();
 
             return true;
+        } else {
+            return await refreshAndRequest(response, () =>
+                toggleDayChecked(ghpId, date)
+            );
         }
     } catch (error) {
         console.error("Error:", error);
@@ -524,6 +532,8 @@ async function deleteGHP(ghpId) {
             }
             updateTotalGhpChecked(getTotalGhpChecked(), ghpList.length);
             updateCalendar();
+        } else {
+            await refreshAndRequest(response, () => deleteGHP(ghpId));
         }
     } catch (error) {
         console.error("Error deleting GHP:", error);
@@ -547,6 +557,10 @@ async function getNotesByDate(ghpId, date) {
         if (response.ok) {
             const data = await response.json();
             return data;
+        } else {
+            return await refreshAndRequest(response, () =>
+                getNotesByDate(ghpId, date)
+            );
         }
     } catch (error) {
         console.error("Error fetching notes:", error);
@@ -556,7 +570,7 @@ async function getNotesByDate(ghpId, date) {
 }
 
 async function addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes) {
-    const today = new Date().toLocaleDateString('en-CA');
+    const today = new Date().toLocaleDateString("en-CA");
 
     if (checkToday) {
         await toggleDayChecked(ghpId, today);
@@ -584,6 +598,11 @@ async function addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes) {
             console.log("Notes added successfully");
 
             await fetchUserData();
+        } else {
+            await refreshAndRequest(
+                response,
+                addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes)
+            );
         }
     } catch (error) {
         console.error("Error adding notes:", error);
