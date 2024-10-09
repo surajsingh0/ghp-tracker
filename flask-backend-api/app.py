@@ -181,21 +181,20 @@ def handle_notes(ghp_id, date):
         db.session.commit()
         return jsonify({"message": "Notes updated successfully"}), 200
 
-def get_all_todays_notes(user_id):
+def get_all_todays_notes(user_id, today):
     user = User.query.get(user_id)
     if not user:
         return jsonify({"message": "User not found"}), 404
     
     ghps = GHP.query.filter_by(user_id=user_id).all()
-    checked_days = []
-    for ghp in ghps:
-        checked_days += ghp.checked_days
     todays_notes = {ghp.name: None for ghp in ghps}
 
-    for checked_day in checked_days:
-        notes = Notes.query.filter_by(checked_day_id=checked_day.id).first()
-        if notes:
-            todays_notes[checked_day.ghp.name] = notes.html_content
+    for ghp in ghps:
+        checked_day = CheckedDay.query.filter_by(ghp_id=ghp.id, date=today).first()
+        if checked_day:
+            notes = Notes.query.filter_by(checked_day_id=checked_day.id).first()
+            if notes:
+                todays_notes[ghp.name] = notes.html_content
     
     return todays_notes
 
@@ -224,7 +223,7 @@ def get_user_data():
             "max_streak": max_streak,
         })
     
-    return jsonify({"ghps": ghps_data, "todays_notes": get_all_todays_notes(user_id)}), 200
+    return jsonify({"ghps": ghps_data, "todays_notes": get_all_todays_notes(user_id, today)}), 200
 
 @app.route('/ghp/<int:ghp_id>/check_days', methods=['GET'])
 @jwt_required()

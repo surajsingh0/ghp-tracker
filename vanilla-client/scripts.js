@@ -601,7 +601,7 @@ async function addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes) {
         } else {
             await refreshAndRequest(
                 response,
-                addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes)
+                () => addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes)
             );
         }
     } catch (error) {
