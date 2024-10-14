@@ -50,16 +50,13 @@ async function fetchUserData() {
     const today = new Date().toLocaleDateString("en-CA");
 
     try {
-        const response = await fetch(
-            `http://localhost:5000/user/data?today=${today}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
-        );
+        const response = await fetch(`${baseUrl}/user/data?today=${today}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
 
         if (response.ok) {
             userData = await response.json();
@@ -78,7 +75,7 @@ async function fetchUserData() {
 async function addGHP(name) {
     const accessToken = localStorage.getItem("jwt_token");
     try {
-        const response = await fetch("http://localhost:5000/ghp", {
+        const response = await fetch(`${baseUrl}/ghp`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -192,17 +189,14 @@ async function toggleDayChecked(ghpId, date) {
     const accessToken = localStorage.getItem("jwt_token");
 
     try {
-        const response = await fetch(
-            `http://localhost:5000/ghp/${ghpId}/check`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify({ date: date }),
-            }
-        );
+        const response = await fetch(`${baseUrl}/ghp/${ghpId}/check`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({ date: date }),
+        });
 
         if (response.ok) {
             await fetchUserData(); // Refresh all user data
@@ -500,7 +494,7 @@ async function deleteGHP(ghpId) {
 
     const accessToken = localStorage.getItem("jwt_token");
     try {
-        const response = await fetch(`http://localhost:5000/ghp/${ghpId}`, {
+        const response = await fetch(`${baseUrl}/ghp/${ghpId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -545,7 +539,7 @@ async function getNotesByDate(ghpId, date) {
     const accessToken = localStorage.getItem("jwt_token");
     try {
         const response = await fetch(
-            `http://localhost:5000/checked_days/${ghpId}/${date}/notes`,
+            `${baseUrl}/checked_days/${ghpId}/${date}/notes`,
             {
                 method: "GET",
                 headers: {
@@ -584,7 +578,7 @@ async function addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes) {
     const accessToken = localStorage.getItem("jwt_token");
     try {
         const response = await fetch(
-            `http://localhost:5000/checked_days/${ghpId}/${today}/notes`,
+            `${baseUrl}/checked_days/${ghpId}/${today}/notes`,
             {
                 method: requestType,
                 headers: {
@@ -599,9 +593,8 @@ async function addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes) {
 
             await fetchUserData();
         } else {
-            await refreshAndRequest(
-                response,
-                () => addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes)
+            await refreshAndRequest(response, () =>
+                addTodaysNotes(ghpId, notes, checkToday, updateTodaysNotes)
             );
         }
     } catch (error) {

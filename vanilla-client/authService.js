@@ -2,7 +2,7 @@
 async function refreshAccessToken() {
     const refreshToken = localStorage.getItem("refresh_token");
     try {
-        const response = await fetch("http://localhost:5000/refresh", {
+        const response = await fetch(`${baseUrl}/refresh`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -46,7 +46,7 @@ async function verifyUserLogin() {
     }
 
     try {
-        const response = await fetch("http://localhost:5000/verify", {
+        const response = await fetch(`${baseUrl}/verify`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

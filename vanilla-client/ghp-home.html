@@ -14,6 +14,7 @@
         />
         <!-- <script src="https://unpkg.com/turndown/dist/turndown.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+        <script src="config.js" defer></script>
         <script src="authService.js" defer></script>
         <script src="scripts.js" defer></script>
         <title>Daily Progress Streaks</title>
@@ -71,7 +72,10 @@
         <div id="viewNoteModal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>Notes for <span class="ghp-name"></span> from <span class="date"></span></h2>
+                <h2>
+                    Notes for <span class="ghp-name"></span> from
+                    <span class="date"></span>
+                </h2>
                 <hr />
                 <div id="notesContent"></div>
             </div>

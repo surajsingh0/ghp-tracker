@@ -7,7 +7,7 @@ document
         const password = document.getElementById("password").value;
 
         try {
-            const response = await fetch("http://localhost:5000/register", {
+            const response = await fetch(`${baseUrl}/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
