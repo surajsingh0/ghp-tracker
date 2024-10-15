@@ -45,9 +45,15 @@ if __name__ == '__main__':
 
     app = create_app(config_name)
 
-    # Only create database tables if in production or testing mode
-    if config_name in ['production', 'testing']:
+    # Use Gunicorn for production mode
+    if config_name == 'production':
+        try:
+            from gunicorn_server import run_gunicorn
+            run_gunicorn(app)
+        except ImportError:
+            print("Gunicorn is not installed. Please install it to run in production.")
+            sys.exit(1)
+    else:
         with app.app_context():
             db.create_all()
-
-    app.run()
+        app.run()
