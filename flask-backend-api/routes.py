@@ -232,3 +232,7 @@ def calculate_streaks(checked_days, today):
             break
     
     return current_streak, max_streak
+
+@main.route('/', methods=['GET'])
+def home():
+    return 'Success', 200
