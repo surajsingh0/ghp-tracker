@@ -165,6 +165,9 @@ cython_debug/
 
 populate_fake_data.py
 
+.aws-sam
+zappa_settings.json
+
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
