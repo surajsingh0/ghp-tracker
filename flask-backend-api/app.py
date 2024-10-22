@@ -28,6 +28,8 @@ def create_app(config_name):
 
     return app
 
+zappa_app = create_app("production")
+
 if __name__ == '__main__':
     # Determine the configuration from the command line argument
     if len(sys.argv) > 1:
