@@ -21,7 +21,7 @@ document
             if (response.ok) {
                 localStorage.setItem("jwt_token", access_token);
                 localStorage.setItem("refresh_token", refresh_token);
-                window.location.href = "/";
+                window.location.href = "";
             } else {
                 alert(result.message);
             }

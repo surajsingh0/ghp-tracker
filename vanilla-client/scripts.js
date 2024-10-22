@@ -878,7 +878,7 @@ addNoteModal.querySelector("#addNote").addEventListener("click", async (e) => {
 function logout() {
     localStorage.removeItem("jwt_token");
 
-    window.location.href = "/";
+    window.location.href = "";
 }
 
 logoutButton.addEventListener("click", (e) => {
