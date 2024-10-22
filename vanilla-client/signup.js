@@ -19,7 +19,7 @@ document
             alert(result.message);
 
             if (response.ok) {
-                window.location.href = "/login.html"; // Redirect to login page after successful registration
+                window.location.href = "login.html"; // Redirect to login page after successful registration
             }
         } catch (error) {
             console.error("Error:", error);
@@ -28,6 +28,6 @@ document
 
 document.addEventListener("DOMContentLoaded", async function () {
     if (await verifyUserLogin()) {
-        window.location.href = "/ghp-home.html";
+        window.location.href = "ghp-home.html";
     }
 });

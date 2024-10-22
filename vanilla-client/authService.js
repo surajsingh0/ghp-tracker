@@ -32,7 +32,7 @@ async function refreshAndRequest(response, requestCallback) {
             console.error("Token refresh failed. Redirecting to login...");
             localStorage.removeItem("jwt_token");
             localStorage.removeItem("refresh_token");
-            window.location.href = "/login.html";
+            window.location.href = "login.html";
             return false;
         }
     }

@@ -889,7 +889,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Check if user is logged in
     const isLoggedIn = await verifyUserLogin();
     if (!isLoggedIn) {
-        window.location.href = "/login.html";
+        window.location.href = "login.html";
     }
 
     // Fetch all user data

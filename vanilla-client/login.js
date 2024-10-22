@@ -33,6 +33,6 @@ document
 
 document.addEventListener("DOMContentLoaded", async function () {
     if (await verifyUserLogin()) {
-        window.location.href = "/ghp-home.html";
+        window.location.href = "ghp-home.html";
     }
 });
