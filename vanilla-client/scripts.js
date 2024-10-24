@@ -32,6 +32,7 @@ const totalGhpCheckedSpan = document.getElementById("totalGhpChecked");
 const downloadCalenderButton = document.getElementById("downloadCalender");
 const addNoteModal = document.getElementById("addNoteModal");
 const viewNoteModal = document.getElementById("viewNoteModal");
+const loadinOverlay = document.getElementById("loadingOverlay");
 
 let quill;
 
@@ -66,6 +67,8 @@ async function fetchUserData() {
         }
     } catch (error) {
         console.error("Error:", error);
+    } finally {
+        loadinOverlay.classList.add("hidden");
     }
 
     return null;

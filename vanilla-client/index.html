@@ -6,6 +6,7 @@
         <script src="config.js" defer></script>
         <script src="authService.js" defer></script>
         <script src="index.js" defer></script>
+        <link rel="stylesheet" href="loading.css" />
         <style>
             * {
                 margin: 0;
@@ -18,55 +19,6 @@
                 display: grid;
                 place-items: center;
                 background: #ffffff;
-            }
-
-            .loading-container {
-                position: relative;
-                width: 80px;
-                height: 80px;
-            }
-
-            .circle {
-                position: absolute;
-                inset: 0;
-                border-radius: 50%;
-                border: 3px solid #f1f5f9;
-                border-top-color: #6366f1;
-                animation: spin 1.2s linear infinite;
-            }
-
-            .checkmark {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 40px;
-                height: 40px;
-            }
-
-            .checkmark path {
-                stroke-dasharray: 48;
-                stroke-dashoffset: 48;
-                animation: draw 1.2s ease-in-out infinite;
-            }
-
-            @keyframes spin {
-                to {
-                    transform: rotate(360deg);
-                }
-            }
-
-            @keyframes draw {
-                0% {
-                    stroke-dashoffset: 48;
-                }
-                50% {
-                    stroke-dashoffset: 0;
-                }
-                85%,
-                100% {
-                    stroke-dashoffset: 0;
-                }
             }
         </style>
         <title>GHP - Loading...</title>
