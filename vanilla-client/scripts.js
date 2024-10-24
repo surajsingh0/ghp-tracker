@@ -189,6 +189,13 @@ function updateResetCalendarButtonVisibility() {
 }
 
 async function toggleDayChecked(ghpId, date) {
+    if (isTodayChecked() && userData.todays_notes[currentGHP.name]) {
+        var confirmation = confirm(
+            "Unchecking will result in the loss of your notes for today. Do you want to proceed?"
+        );
+        if (!confirmation) return false;
+    }
+
     const accessToken = localStorage.getItem("jwt_token");
 
     try {
@@ -303,6 +310,10 @@ function isTodayDateString(dateString) {
         date.getMonth() === today.getMonth() &&
         date.getDate() === today.getDate()
     );
+}
+
+function isTodayChecked() {
+    return currentGHP.current_streak !== 0;
 }
 
 // Create a month calendar DOM element
@@ -643,7 +654,7 @@ function createGHPButton(ghp) {
             .forEach((button) => button.classList.remove("active"));
         button.classList.add("active");
 
-        if (currentGHP.current_streak === 0) {
+        if (!isTodayChecked() === 0) {
             addNoteModal.querySelector("#addNote").innerText =
                 "Mark Today and Add Note";
         } else {
@@ -868,7 +879,7 @@ addNoteModal.querySelector("#addNote").addEventListener("click", async (e) => {
     await addTodaysNotes(
         currentGHP.id,
         htmlContent,
-        currentGHP.current_streak === 0,
+        !isTodayChecked(),
         userData.todays_notes[currentGHP.name] !== null
     );
     addNoteModal.style.display = "none";
