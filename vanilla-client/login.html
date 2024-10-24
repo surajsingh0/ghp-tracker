@@ -98,7 +98,13 @@
             a:hover {
                 color: var(--primary-color-hover);
             }
+
+            #loginBtn:disabled {
+                background-color: rgba(0, 0, 255, 0.2);
+            }
         </style>
+        <link rel="stylesheet" href="loading.css" />
+
         <script src="config.js" defer></script>
         <script src="authService.js" defer></script>
         <script src="login.js" defer></script>
@@ -113,9 +119,24 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required />
 
-                <button type="submit">Login</button>
+                <button id="loginBtn" type="submit">Login</button>
             </form>
             <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+        </div>
+        <div id="loadingOverlay">
+            <div class="loading-container">
+                <div class="circle"></div>
+                <svg class="checkmark" viewBox="0 0 24 24">
+                    <path
+                        d="M6 12l4 4 8-8"
+                        fill="none"
+                        stroke="#6366f1"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </div>
         </div>
     </body>
 </html>

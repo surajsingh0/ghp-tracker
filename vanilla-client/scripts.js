@@ -47,6 +47,8 @@ let userData = null;
 async function fetchUserData() {
     const accessToken = localStorage.getItem("jwt_token");
 
+    loadinOverlay.classList.remove("hidden");
+
     // Get today's date in 'YYYY-MM-DD' format
     const today = new Date().toLocaleDateString("en-CA");
 
@@ -842,6 +844,8 @@ sidebarButton.addEventListener("click", () => {
 
 addGHPButton.addEventListener("click", async () => {
     if (ghpInput.value.trim()) {
+        addGHPButton.setAttribute("disabled", true);
+
         const newGHP = await addGHP(ghpInput.value.trim());
         setCurrentGHP(newGHP.id);
         updateGhpInfoUI(newGHP);
@@ -849,6 +853,8 @@ addGHPButton.addEventListener("click", async () => {
         ghpInput.value = "";
         const ghpButton = createGHPButton(newGHP);
         ghpSidebar.appendChild(ghpButton);
+
+        addGHPButton.removeAttribute("disabled");
     }
 });
 

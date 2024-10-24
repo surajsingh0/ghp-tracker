@@ -1,7 +1,12 @@
+const loginBtn = document.getElementById("loginBtn");
+
 document
     .getElementById("loginForm")
     .addEventListener("submit", async function (event) {
         event.preventDefault();
+
+        loginBtn.setAttribute("disabled", true);
+        loginBtn.innerText = "Logging In...";
 
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
@@ -28,6 +33,9 @@ document
         } catch (error) {
             console.error("Error:", error);
             alert("Unexpected error!");
+        } finally {
+            loginBtn.removeAttribute("disabled");
+            loginBtn.innerText = "Login";
         }
     });
 
@@ -35,4 +43,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (await verifyUserLogin()) {
         window.location.href = "ghp-home.html";
     }
+
+    const loadingOverlay = document.getElementById("loadingOverlay");
+    loadingOverlay.classList.add("hidden");
 });

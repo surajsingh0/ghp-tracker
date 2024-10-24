@@ -1,7 +1,12 @@
+const signUpBtn = document.getElementById("signUpBtn");
+
 document
     .getElementById("registerForm")
     .addEventListener("submit", async function (event) {
         event.preventDefault();
+
+        signUpBtn.setAttribute("disabled", true);
+        signUpBtn.innerText = "Signing Up...";
 
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
@@ -23,6 +28,9 @@ document
             }
         } catch (error) {
             console.error("Error:", error);
+        } finally {
+            signUpBtn.removeAttribute("disabled");
+            signUpBtn.innerText = "Register";
         }
     });
 
@@ -30,4 +38,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (await verifyUserLogin()) {
         window.location.href = "ghp-home.html";
     }
+
+    const loadingOverlay = document.getElementById("loadingOverlay");
+    loadingOverlay.classList.add("hidden");
 });
