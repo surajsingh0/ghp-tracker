@@ -101,6 +101,7 @@
             .hero .cta-button:hover {
                 background-color: var(--primary-color-hover);
                 color: white;
+                border: 2px white solid;
             }
 
             .cta-button:hover {
@@ -109,9 +110,10 @@
 
             .hero {
                 background: linear-gradient(
-                    135deg,
-                    var(--primary-color),
-                    var(--secondary-color)
+                    120deg,
+                    var(--primary-color) 0%,
+                    var(--primary-color-hover) 50%,
+                    var(--primary-color) 100%
                 );
                 color: white;
                 padding: 150px 0 100px;
@@ -191,6 +193,17 @@
                 border-radius: 10px;
                 overflow: hidden;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                height: calc(
+                    100% - 86px
+                ); /* Reduces height by total dark parts */
+                position: relative;
+            }
+
+            .demo-video video {
+                width: 100%;
+                margin-top: -43px; /* Hides dark part from top */
+                margin-bottom: -43px; /* Hides dark part from bottom */
+                display: block; /* Removes any unwanted space */
             }
 
             .testimonials {
@@ -316,7 +329,7 @@
                 width: 100%;
                 height: 100%;
                 background: rgba(99, 102, 241, 0.8);
-                color: var(--primary-color);
+                color: var(--primary-color-hover);
                 text-shadow: 1px 1px 25px #fff;
                 display: flex;
                 align-items: center;
@@ -346,6 +359,22 @@
                 .pricing-grid {
                     grid-template-columns: 1fr;
                 }
+            }
+
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background-color: var(--bg-color);
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: var(--primary-color);
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: var(--primary-color-hover);
             }
         </style>
     </head>
@@ -429,20 +458,25 @@
             <section id="demo" class="demo">
                 <div class="container">
                     <h2>See GHP in Action</h2>
-                    <div class="demo-video">
-                        <img
-                            src="/api/placeholder/800/450"
-                            alt="GHP Demo Video Placeholder"
-                        />
+                    <div class="demo-video" aria-labelledby="video-title">
+                        <video
+                            autoplay
+                            loop
+                            muted
+                            width="100%"
+                            aria-label="This video demonstrates the features and functionalities of the Goal Habit Progression app."
+                        >
+                            <source
+                                src="assets/demo-vid-01.mp4"
+                                type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
                 </div>
             </section>
 
-            <section
-                id="testimonials"
-                class="testimonials"
-                style="filter: blur(5px)"
-            >
+            <section id="testimonials" class="testimonials">
                 <div class="container">
                     <h2>What Our Users Say</h2>
                     <div class="testimonial-grid">
