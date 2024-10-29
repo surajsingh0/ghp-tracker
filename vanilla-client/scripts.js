@@ -92,6 +92,7 @@ async function addGHP(name) {
             const newGHP = await response.json();
             ghpList.push(newGHP);
             await fetchUserData(); // Refresh user data
+            downloadCalenderButton.classList.remove("hidden");
             return newGHP;
         } else {
             return await refreshAndRequest(response, () => addGHP(name));
@@ -151,8 +152,37 @@ function updateCalendar() {
 
         ghpContainer.classList.add("hidden");
 
-        carouselContainer.innerHTML =
-            "<p>Please select or create a <b>Goal Habit Progression</b> to view the streak calendar.</p>";
+        carouselContainer.innerHTML = `
+            <div style="display: flex; align-items: center;">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                style="margin-right: 16px;"
+                >
+                <style>
+                    @keyframes moveDiagonal {
+                    0%, 100% { transform: translate(0, 0); }
+                    50% { transform: translate(-2px, -2px); }
+                    }
+                    .arrow {
+                    animation: moveDiagonal 1.8s ease-in-out infinite;
+                    stroke: #6366f1;
+                    stroke-width: 2;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                    fill: none;
+                    }
+                </style>
+                <path class="arrow" d="M18 18L6 6M6 16V6h10"/>
+                </svg>
+                <p style="font-size: 16px; color: #374151; margin: 0;">
+                Please select or create a <b>Goal Habit Progression</b> to view the streak calendar
+                </p>
+            </div>
+        `;
+
         return;
     }
 
@@ -518,7 +548,6 @@ async function deleteGHP(ghpId) {
             },
         });
         if (response.ok) {
-            console.log("GHP deleted successfully");
             await fetchUserData();
             updateGHPList();
 
@@ -529,9 +558,9 @@ async function deleteGHP(ghpId) {
             if (ghpList.length === 0) {
                 currentGHP = null;
                 updateGhpInfoUI(null);
-            }
-            if (ghpId === currentGHP.id) {
-                console.log("Current GHP deleted, setting new current GHP");
+                downloadCalenderButton.classList.add("hidden");
+                carouselContainer.style.cssText = "";
+            } else if (ghpId === currentGHP.id) {
                 document
                     .querySelector(
                         '.ghp-button[data-id="' + ghpList[0].id + '"]'
@@ -548,7 +577,6 @@ async function deleteGHP(ghpId) {
     } catch (error) {
         console.error("Error deleting GHP:", error);
     }
-    return null;
 }
 
 async function getNotesByDate(ghpId, date) {
@@ -936,6 +964,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // setCurrentGHP(ghpList[0].id);
         // updateGhpInfoUI(ghpList[0]);
         // document.querySelector(".ghp-button").classList.add("active");
+        downloadCalenderButton.classList.remove("hidden");
     } else {
         updateCalendar(); // This will show the message to create a GHP
     }

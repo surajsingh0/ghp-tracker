@@ -50,6 +50,10 @@ body {
     color: gray;
 }
 
+.calendar-carousel #downloadCalender.hidden {
+    display: none;
+}
+
 .carousel-container {
     display: flex;
     transition: transform 0.3s ease-in-out;
