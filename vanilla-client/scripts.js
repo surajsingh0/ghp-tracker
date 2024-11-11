@@ -722,7 +722,7 @@ function populateSidebar() {
     });
 }
 
-function downloadStreakCalendar() {
+function generateGhpCalendarImage() {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
@@ -774,10 +774,8 @@ function downloadStreakCalendar() {
 
     // Convert canvas to image and trigger download
     const dataUrl = canvas.toDataURL("image/png");
-    const link = document.createElement("a");
-    link.download = `${currentGHP.name}_streak_calendar.png`;
-    link.href = dataUrl;
-    link.click();
+
+    return dataUrl;
 }
 
 function drawHeader(ctx, width, height) {
@@ -866,6 +864,30 @@ function drawMonth(ctx, date, x, y, width, height, checkedDays) {
     }
 }
 
+function downloadGhpDataZip() {
+    const zip = new JSZip();
+
+    const progressCalenderImage = generateGhpCalendarImage();
+
+    const base64Image = progressCalenderImage.split(",")[1];
+
+    zip.file(`${currentGHP.name}_ghp_calendar.png`, base64Image, {
+        base64: true,
+    });
+
+    zip.generateAsync({ type: "blob" })
+        .then(function (content) {
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(content);
+            a.download = `${currentGHP.name}_ghp_data.zip`;
+            a.click();
+        })
+        .catch(function (error) {
+            console.error("Error generating ZIP file:", error);
+            alert("There was an error creating the ZIP file.");
+        });
+}
+
 sidebarButton.addEventListener("click", () => {
     toggleGHPSidebar();
 });
@@ -895,7 +917,7 @@ downloadCalenderButton.addEventListener("click", () => {
         alert("You don't have any streak yet!");
         return;
     }
-    downloadStreakCalendar();
+    downloadGhpDataZip();
 });
 
 addNoteModal.querySelector(".close").addEventListener("click", () => {
