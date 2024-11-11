@@ -530,10 +530,9 @@ function toggleGHPSidebar() {
 }
 
 async function deleteGHP(ghpId) {
+    const ghpName = ghpList.find((ghp) => ghp.id === ghpId).name;
     var confirmation = confirm(
-        `Are you sure you want to delete "${
-            ghpList.find((ghp) => ghp.id === ghpId).name
-        }"?`
+        `Are you sure you want to delete "${ghpName}" GHP? \nPlease ensure you have downloaded its data before proceeding.`
     );
 
     if (!confirmation) return;
@@ -722,6 +721,33 @@ function populateSidebar() {
     });
 }
 
+async function fetchAllGhpNotes(ghpId) {
+    const accessToken = localStorage.getItem("jwt_token");
+
+    try {
+        const res = await fetch(`${baseUrl}/ghp/${ghpId}/all_notes`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+
+            return data;
+        } else {
+            return await refreshAndRequest(response, () =>
+                fetchAllGhpNotes(ghpId)
+            );
+        }
+    } catch (error) {
+        console.error("Error fetching notes:", error);
+        return null;
+    }
+}
+
 function generateGhpCalendarImage() {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -875,16 +901,37 @@ function downloadGhpDataZip() {
         base64: true,
     });
 
-    zip.generateAsync({ type: "blob" })
-        .then(function (content) {
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(content);
-            a.download = `${currentGHP.name}_ghp_data.zip`;
-            a.click();
+    const notesFolderName = `${currentGHP.name}_ghp_notes`;
+
+    fetchAllGhpNotes(currentGHP.id)
+        .then((data) => {
+            data.forEach((note) => {
+                const noteDate = new Date(note[0]);
+                const noteContent = note[1];
+
+                const formattedDate = noteDate.toLocaleDateString("en-CA");
+
+                const fileName = `${formattedDate}.html`;
+                const filePath = `${notesFolderName}/${fileName}`;
+
+                zip.file(filePath, noteContent);
+            });
+
+            zip.generateAsync({ type: "blob" })
+                .then(function (content) {
+                    const a = document.createElement("a");
+                    a.href = URL.createObjectURL(content);
+                    a.download = `${currentGHP.name}_ghp_data.zip`;
+                    a.click();
+                })
+                .catch(function (error) {
+                    console.error("Error generating ZIP file:", error);
+                    alert("There was an error creating the ZIP file.");
+                });
         })
         .catch(function (error) {
-            console.error("Error generating ZIP file:", error);
-            alert("There was an error creating the ZIP file.");
+            console.error("Error fetching notes:", error);
+            alert("There was an error fetching the notes.");
         });
 }
 

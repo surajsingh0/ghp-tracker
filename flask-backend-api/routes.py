@@ -196,6 +196,27 @@ def get_check_days(ghp_id):
     checked_days = CheckedDay.query.filter_by(ghp_id=ghp_id).order_by(CheckedDay.date.desc()).all()
     return jsonify([{"date": day.date.strftime('%Y-%m-%d')} for day in checked_days]), 200
 
+@main.route('/ghp/<int:ghp_id>/all_notes', methods=['GET'])
+@jwt_required()
+def get_all_notes(ghp_id):
+    def getAllGhpNotes(ghp_id):
+        ghp = db.session.query(GHP).filter_by(id=ghp_id).first()
+        checked_days = db.session.query(CheckedDay).filter_by(ghp_id=ghp.id)
+        notes = []
+        
+        for cd in checked_days:
+            note = db.session.query(Notes).filter_by(checked_day_id=cd.id).first()
+            if note:
+                notes.append((cd.date, note.html_content))
+        
+        return notes
+
+    user = get_jwt_identity()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+    
+    return getAllGhpNotes(ghp_id), 200
+
 def calculate_streaks(checked_days, today):
     if not checked_days:
         return 0, 0
